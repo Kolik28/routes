@@ -597,6 +597,7 @@
 
     <!-- Blog Page -->
     <div id="blogPage" class="page min-h-screen bg-gray-50 pt-20">
+        <div class="min-h-screen bg-gray-50">
         <!-- Header Section -->
         <section class="bg-[#2a2a2a] text-white py-20 px-6 lg:px-12">
             <div class="max-w-7xl mx-auto text-center">
@@ -610,18 +611,16 @@
                     Tips, panduan, dan inspirasi dari para ahli untuk mendukung gaya hidup sehatmu
                 </p>
                 
-                <!-- Search Bar -->
                 <div class="max-w-2xl mx-auto">
                     <div class="relative">
                         <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="8"/>
                             <path d="m21 21-4.3-4.3"/>
                         </svg>
-                        <input type="text" placeholder="Cari artikel..." class="pl-12 h-14 w-full bg-white text-[#2a2a2a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]">
+                        <input type="text" id="blogSearch" placeholder="Cari artikel..." class="pl-12 h-14 w-full bg-white text-[#2a2a2a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]" onkeyup="searchArticles()">
                     </div>
                 </div>
             </div>
-        </section>
         </section>
 
         <!-- Featured Article -->
@@ -631,7 +630,7 @@
                     <h2 class="text-3xl font-bold text-[#2a2a2a] mb-2">Artikel Utama</h2>
                 </div>
                 
-                <div class="overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-shadow rounded-lg bg-white">
+                <div class="overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-shadow rounded-lg bg-white cursor-pointer">
                     <div class="grid lg:grid-cols-2 gap-0">
                         <div class="relative h-80 lg:h-auto">
                             <img src="https://images.unsplash.com/photo-1653927956711-f2222a45e040?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWlnaHRsaWZ0aW5nJTIwZ3ltJTIwZXF1aXBtZW50fGVufDF8fHx8MTc2NzI2NDk3Nnww&ixlib=rb-4.1.0&q=80&w=1080" alt="Featured article" class="w-full h-full object-cover">
@@ -666,7 +665,7 @@
                             <p class="text-sm text-gray-500 mb-6">
                                 Oleh Dr. Sarah Fitness
                             </p>
-                            <button class="bg-[#FF6B6B] text-white hover:bg-[#ff5555] w-fit px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2" onclick="navigateTo('article')">
+                            <button class="bg-[#FF6B6B] text-white hover:bg-[#ff5555] w-fit px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2">
                                 Baca Selengkapnya
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
@@ -674,6 +673,37 @@
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- All Articles Grid -->
+        <section class="py-16 px-6 lg:px-12 bg-gray-50">
+            <div class="max-w-7xl mx-auto">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-[#2a2a2a] mb-2">Semua Artikel</h2>
+                    <p class="text-gray-600" id="articleCount">Menampilkan 9 artikel</p>
+                </div>
+                
+                <div id="articlesGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Articles will be rendered here by JavaScript -->
+                </div>
+                
+                <!-- Empty State -->
+                <div id="articleEmptyState" class="text-center py-20 hidden">
+                    <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.3-4.3"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-[#2a2a2a] mb-2">Artikel Tidak Ditemukan</h3>
+                    <p class="text-gray-600 mb-8">
+                        Maaf, tidak ada artikel yang cocok dengan pencarian Anda. Coba kata kunci lain.
+                    </p>
+                    <button onclick="resetArticleFilter()" class="bg-[#FF6B6B] text-white hover:bg-[#ff5555] px-8 py-3 rounded-lg font-medium transition-colors">
+                        Reset Pencarian
+                    </button>
                 </div>
             </div>
         </section>
@@ -1346,6 +1376,150 @@
         
         // Initialize
         renderTrainers();
+
+         // Blog Articles Data
+        const articlesData = [
+            {
+                title: 'Panduan Lengkap Protein untuk Pemula',
+                category: 'Nutrisi',
+                excerpt: 'Berapa banyak protein yang kamu butuhkan? Mari kita bahas kebutuhan protein harian berdasarkan goalmu.',
+                image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400',
+                date: '28 Des 2025',
+                readTime: '6 menit'
+            },
+            {
+                title: '7 Kesalahan Umum di Gym yang Harus Dihindari',
+                category: 'Tips Latihan',
+                excerpt: 'Hindari kesalahan ini agar latihanmu lebih efektif dan terhindar dari cedera yang tidak perlu.',
+                image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400',
+                date: '25 Des 2025',
+                readTime: '7 menit'
+            },
+            {
+                title: 'Pentingnya Recovery dalam Program Fitness',
+                category: 'Gaya Hidup',
+                excerpt: 'Istirahat bukan berarti malas - ini adalah bagian penting dari progressmu untuk hasil maksimal.',
+                image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400',
+                date: '22 Des 2025',
+                readTime: '5 menit'
+            },
+            {
+                title: 'Strategi Meal Prep untuk Atlet Sibuk',
+                category: 'Nutrisi',
+                excerpt: 'Tips praktis untuk menyiapkan makanan sehat dalam waktu singkat tanpa mengorbankan kualitas nutrisi.',
+                image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400',
+                date: '20 Des 2025',
+                readTime: '8 menit'
+            },
+            {
+                title: 'Cardio vs Strength Training: Mana yang Lebih Baik?',
+                category: 'Tips Latihan',
+                excerpt: 'Perdebatan klasik dalam dunia fitness. Kami akan memberikan jawaban berdasarkan riset terbaru.',
+                image: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=400',
+                date: '18 Des 2025',
+                readTime: '9 menit'
+            },
+            {
+                title: 'Mengatasi Stres dengan Olahraga',
+                category: 'Mental Health',
+                excerpt: 'Bagaimana exercise bisa menjadi terapi alami untuk kesehatan mentalmu. Simak penjelasan lengkapnya.',
+                image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400',
+                date: '15 Des 2025',
+                readTime: '6 menit'
+            },
+            {
+                title: 'Suplemen yang Wajib dan Tidak Wajib',
+                category: 'Nutrisi',
+                excerpt: 'Panduan lengkap tentang suplemen mana yang benar-benar kamu butuhkan dan mana yang hanya marketing.',
+                image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400',
+                date: '12 Des 2025',
+                readTime: '10 menit'
+            },
+            {
+                title: 'Membangun Kebiasaan Fitness yang Konsisten',
+                category: 'Gaya Hidup',
+                excerpt: 'Rahasia untuk tetap konsisten dengan rutinitas fitness dan menjadikannya bagian dari lifestyle.',
+                image: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=400',
+                date: '10 Des 2025',
+                readTime: '7 menit'
+            },
+            {
+                title: 'Teknik Breathing yang Benar Saat Latihan',
+                category: 'Tips Latihan',
+                excerpt: 'Pernapasan yang tepat bisa meningkatkan performa hingga 30%. Pelajari teknik yang benar di sini.',
+                image: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=400',
+                date: '8 Des 2025',
+                readTime: '5 menit'
+            }
+        ];
+        
+        function renderArticles() {
+            const grid = document.getElementById('articlesGrid');
+            const searchQuery = document.getElementById('blogSearch').value.toLowerCase();
+            
+            const filtered = articlesData.filter(article => {
+                const matchesSearch = article.title.toLowerCase().includes(searchQuery) ||
+                                     article.excerpt.toLowerCase().includes(searchQuery) ||
+                                     article.category.toLowerCase().includes(searchQuery);
+                return matchesSearch;
+            });
+            
+            if (filtered.length === 0) {
+                grid.classList.add('hidden');
+                document.getElementById('articleEmptyState').classList.remove('hidden');
+                document.getElementById('articleCount').textContent = 'Tidak ada artikel ditemukan';
+                return;
+            }
+            
+            grid.classList.remove('hidden');
+            document.getElementById('articleEmptyState').classList.add('hidden');
+            document.getElementById('articleCount').textContent = `Menampilkan ${filtered.length} artikel`;
+            
+            grid.innerHTML = filtered.map(article => `
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group">
+                    <div class="h-48 overflow-hidden">
+                        <img src="${article.image}" alt="${article.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    </div>
+                    <div class="p-6">
+                        <span class="px-3 py-1 bg-[#FF6B6B]/10 text-[#FF6B6B] text-xs font-bold rounded-full">
+                            ${article.category}
+                        </span>
+                        <h3 class="text-xl font-bold text-[#2a2a2a] mt-4 mb-3 line-clamp-2 group-hover:text-[#FF6B6B] transition-colors">
+                            ${article.title}
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                            ${article.excerpt}
+                        </p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <div class="flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+                                </svg>
+                                ${article.date}
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                                ${article.readTime}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function searchArticles() {
+            renderArticles();
+        }
+        
+        function resetArticleFilter() {
+            document.getElementById('blogSearch').value = '';
+            renderArticles();
+        }
+        
+        // Initialize articles on page load
+        renderArticles();
     </script>
 </body>
 </html>
