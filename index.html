@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elevate Gym - Lampaui Batasmu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Custom animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Hide all pages by default */
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex items-center justify-between h-20">
+                <button onclick="navigateTo('home')" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                    <div class="w-10 h-10 bg-[#FF6B6B] rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m6.5 6.5 11 11"/>
+                            <path d="m21 21-1-1"/>
+                            <path d="m3 3 1 1"/>
+                            <path d="m18 22 4-4"/>
+                            <path d="m2 6 4-4"/>
+                            <path d="m3 10 7-7"/>
+                            <path d="m14 21 7-7"/>
+                        </svg>
+                    </div>
+                    <span class="text-2xl font-bold text-[#2a2a2a] tracking-tight">ELEVATE</span>
+                </button>
+                
+                <nav class="hidden lg:flex items-center gap-10">
+                    <button onclick="navigateTo('home')" class="nav-link font-medium transition-colors text-[#2a2a2a] hover:text-[#FF6B6B]" data-page="home">Home</button>
+                    <button onclick="navigateTo('trainer')" class="nav-link font-medium transition-colors text-[#2a2a2a] hover:text-[#FF6B6B]" data-page="trainer">Personal Trainer</button>
+                    <button onclick="navigateTo('blog')" class="nav-link font-medium transition-colors text-[#2a2a2a] hover:text-[#FF6B6B]" data-page="blog">Blog</button>
+                    <button onclick="navigateTo('about')" class="nav-link font-medium transition-colors text-[#2a2a2a] hover:text-[#FF6B6B]" data-page="about">About Us</button>
+                </nav>
+                
+                
+                
+                <button class="lg:hidden text-[#2a2a2a]" onclick="toggleMobileMenu()" id="mobileMenuBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" id="menuIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" x2="20" y1="12" y2="12"/>
+                        <line x1="4" x2="20" y1="6" y2="6"/>
+                        <line x1="4" x2="20" y1="18" y2="18"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 hidden" id="closeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6 6 18"/>
+                        <path d="m6 6 12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <nav class="lg:hidden py-6 space-y-6 border-t border-gray-100 hidden" id="mobileMenu">
+                <button onclick="navigateTo('home'); toggleMobileMenu()" class="block w-full text-left font-medium text-[#2a2a2a] hover:text-[#FF6B6B] transition-colors">Home</button>
+                <button onclick="navigateTo('trainer'); toggleMobileMenu()" class="block w-full text-left font-medium text-[#2a2a2a] hover:text-[#FF6B6B] transition-colors">Personal Trainer</button>
+                <button onclick="navigateTo('blog'); toggleMobileMenu()" class="block w-full text-left font-medium text-[#2a2a2a] hover:text-[#FF6B6B] transition-colors">Blog</button>
+                <button onclick="navigateTo('about'); toggleMobileMenu()" class="block w-full text-left font-medium text-[#2a2a2a] hover:text-[#FF6B6B] transition-colors">About Us</button>
+                
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page active">
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1522898467493-49726bf28798?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBhdGhsZXRlJTIwZml0bmVzc3xlbnwxfHx8fDE3NjczMzc5NjN8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Professional athlete" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-[#2a2a2a]/80 via-[#2a2a2a]/70 to-transparent"></div>
+            </div>
+            
+            <div class="relative z-10 text-white px-6 lg:px-12 max-w-7xl mx-auto w-full">
+                <div class="max-w-3xl">
+                    <div class="inline-block mb-6">
+                        <span class="px-4 py-2 bg-[#FF6B6B] text-white text-sm font-bold tracking-wide rounded-full">
+                            TRANSFORMASI DIMULAI DI SINI
+                        </span>
+                    </div>
+                    
+                    <h1 class="text-5xl lg:text-7xl font-bold mb-6 leading-tight tracking-tight">
+                        Lampaui Batasmu,
+                        <span class="block text-[#FF6B6B]">Temukan Kekuatan Sejatimu</span>
+                    </h1>
+                    
+                    <p class="text-xl lg:text-2xl mb-12 text-gray-200 leading-relaxed max-w-2xl">
+                        Akses fasilitas kelas dunia dan komunitas yang mendukung setiap langkah 
+                        transformasi tubuhmu.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 items-center">
+                        <button class="bg-[#FF6B6B] text-white hover:bg-[#ff5555] px-10 h-14 text-lg rounded-lg font-medium transition-colors">
+                            Mulai Latihan Sekarang
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-24 lg:py-32 px-6 lg:px-12 bg-white">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-20">
+                    <span class="text-[#FF6B6B] font-bold tracking-wide text-sm uppercase mb-4 block">
+                        Why Choose Elevate
+                    </span>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-[#2a2a2a] mb-6">
+                        Everything You Need to Succeed
+                    </h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto text-lg">
+                        We provide world-class facilities and expert guidance to help you reach your fitness goals
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+                    <div class="text-center group">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-[#2a2a2a] text-white mb-6 group-hover:bg-[#FF6B6B] transition-colors duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-3 text-xl font-bold text-[#2a2a2a]">Premium Equipment</h3>
+                        <p class="text-gray-600 leading-relaxed">State-of-the-art machines and free weights for all fitness levels</p>
+                    </div>
+                    
+                    <div class="text-center group">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-[#2a2a2a] text-white mb-6 group-hover:bg-[#FF6B6B] transition-colors duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-3 text-xl font-bold text-[#2a2a2a]">Expert Trainers</h3>
+                        <p class="text-gray-600 leading-relaxed">Certified professionals dedicated to helping you achieve your goals</p>
+                    </div>
+                    
+                    <div class="text-center group">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-[#2a2a2a] text-white mb-6 group-hover:bg-[#FF6B6B] transition-colors duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-3 text-xl font-bold text-[#2a2a2a]">Results Driven</h3>
+                        <p class="text-gray-600 leading-relaxed">Proven programs that deliver real, measurable results</p>
+                    </div>
+                    
+                    <div class="text-center group">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-[#2a2a2a] text-white mb-6 group-hover:bg-[#FF6B6B] transition-colors duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-3 text-xl font-bold text-[#2a2a2a]">24/7 Access</h3>
+                        <p class="text-gray-600 leading-relaxed">Work out on your schedule with round-the-clock gym access</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Programs Section -->
+        <section class="py-24 lg:py-32 px-6 lg:px-12 bg-white">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-20">
+                    <span class="text-[#FF6B6B] font-bold tracking-wide text-sm uppercase mb-4 block">
+                        Program Terpopuler
+                    </span>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-[#2a2a2a] mb-6">
+                        Pilih Program yang Sesuai dengan Goalmu
+                    </h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto text-lg">
+                        Setiap program dirancang khusus oleh ahli untuk hasil maksimal
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Program 1 -->
+                    <div class="p-8 border-2 border-gray-100 hover:border-[#FF6B6B] transition-all duration-300 hover:shadow-xl group rounded-lg bg-white">
+                        <div class="w-16 h-16 rounded-2xl bg-[#FF6B6B]/10 text-[#FF6B6B] flex items-center justify-center mb-6 group-hover:bg-[#FF6B6B] group-hover:text-white transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                            </svg>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-[#2a2a2a] mb-4">Fat Loss Acceleration</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Program intensif untuk membakar lemak dan membentuk tubuh ideal dengan kombinasi cardio dan strength training</p>
+                        
+                        <div class="space-y-2 mb-6 text-sm text-gray-600">
+                            <div class="flex justify-between">
+                                <span class="opacity-70">Durasi:</span>
+                                <span class="font-semibold text-[#2a2a2a]">8 Minggu</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="opacity-70">Level:</span>
+                                <span class="font-semibold text-[#2a2a2a]">Pemula - Menengah</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="opacity-70">Sesi:</span>
+                                <span class="font-semibold text-[#2a2a2a]">4x/Minggu</span>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-[#2a2a2a] text-white hover:bg-[#FF6B6B] transition-colors py-3 rounded-lg font-medium">
+                            Lihat Detail Program
+                        </button>
+                    </div>
+
+                    <!-- Program 2 -->
+                    <div class="p-8 border-2 border-gray-100 hover:border-[#FF6B6B] transition-all duration-300 hover:shadow-xl group rounded-lg bg-white">
+                        <div class="w-16 h-16 rounded-2xl bg-[#FF6B6B]/10 text-[#FF6B6B] flex items-center justify-center mb-6 group-hover:bg-[#FF6B6B] group-hover:text-white transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
+                            </svg>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-[#2a2a2a] mb-4">Muscle Building Mastery</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Fokus pada pembentukan massa otot dengan teknik progressive overload dan nutrisi yang tepat</p>
+                        
+                        <div class="space-y-2 mb-6 text-sm text-gray-600">
+                            <div class="flex justify-between">
+                                <span class="opacity-70">Durasi:</span>
+                                <span class="font-semibold text-[#2a2a2a]">12 Minggu</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="opacity-70">Level:</span>
+                                <span class="font-semibold text-[#2a2a2a]">Menengah - Lanjut</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="opacity-70">Sesi:</span>
+                                <span class="font-semibold text-[#2a2a2a]">5x/Minggu</span>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-[#2a2a2a] text-white hover:bg-[#FF6B6B] transition-colors py-3 rounded-lg font-medium">
+                            Lihat Detail Program
+                        </button>
+                    </div>
+
+                    <!-- Program 3 -->
+                    <div class="p-8 border-2 border-gray-100 hover:border-[#FF6B6B] transition-all duration-300 hover:shadow-xl group rounded-lg bg-white">
+                        <div class="w-16 h-16 rounded-2xl bg-[#FF6B6B]/10 text-[#FF6B6B] flex items-center justify-center mb-6 group-hover:bg-[#FF6B6B] group-hover:text-white transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                            </svg>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-[#2a2a2a] mb-4">Yoga & Mindfulness</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Gabungan yoga, meditasi, dan latihan fleksibilitas untuk keseimbangan tubuh dan pikiran</p>
+                        
+                        <div class="space-y-2 mb-6 text-sm text-gray-600">
+                            <div class="flex justify-between">
+                                <span class="opacity-70">Durasi:</span>
+                                <span class="font-semibold text-[#2a2a2a]">6 Minggu</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="opacity-70">Level:</span>
+                                <span class="font-semibold text-[#2a2a2a]">Semua Level</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="opacity-70">Sesi:</span>
+                                <span class="font-semibold text-[#2a2a2a]">3x/Minggu</span>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-[#2a2a2a] text-white hover:bg-[#FF6B6B] transition-colors py-3 rounded-lg font-medium">
+                            Lihat Detail Program
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="py-24 lg:py-32 px-6 lg:px-12 bg-white">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-20">
+                    <span class="text-[#FF6B6B] font-bold tracking-wide text-sm uppercase mb-4 block">
+                        Paket Membership
+                    </span>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-[#2a2a2a] mb-6">
+                        Investasi Terbaik untuk Tubuhmu
+                    </h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto text-lg">
+                        Pilih paket yang sesuai dengan kebutuhan dan goal fitness kamu
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 lg:gap-10">
+                    <!-- Basic Plan -->
+                    <div class="p-8 relative border-2 border-gray-200 hover:border-[#FF6B6B] transition-all duration-300 hover:shadow-xl rounded-lg bg-white">
+                        <div class="mb-8">
+                            <h3 class="text-2xl font-bold text-[#2a2a2a] mb-2">Basic</h3>
+                            <p class="text-gray-600 text-sm mb-4">Akses Gym 24/7</p>
+                            <div class="flex items-baseline mt-6">
+                                <span class="text-xl text-gray-600">Rp</span>
+                                <span class="text-5xl font-bold text-[#2a2a2a] mx-2">299K</span>
+                                <span class="text-gray-500 text-lg">/bulan</span>
+                            </div>
+                        </div>
+                        
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Akses gym selama jam off-peak</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Akses semua peralatan cardio</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Locker room & shower</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Free fitness assessment</span>
+                            </li>
+                        </ul>
+                        
+                        <button class="w-full h-12 font-bold bg-[#2a2a2a] text-white hover:bg-[#FF6B6B] transition-colors rounded-lg">
+                            Pilih Paket Ini
+                        </button>
+                    </div>
+
+                    <!-- Pro Plan (Popular) -->
+                    <div class="p-8 relative border-2 border-[#FF6B6B] shadow-xl scale-105 rounded-lg bg-white">
+                        <div class="absolute top-0 right-8 -translate-y-1/2 bg-[#FF6B6B] text-white px-6 py-2 rounded-full text-sm font-bold">
+                            TERPOPULER
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-2xl font-bold text-[#2a2a2a] mb-2">Pro</h3>
+                            <p class="text-gray-600 text-sm mb-4">Akses Gym + 5 Sesi Personal Trainer/Bulan</p>
+                            <div class="flex items-baseline mt-6">
+                                <span class="text-xl text-gray-600">Rp</span>
+                                <span class="text-5xl font-bold text-[#2a2a2a] mx-2">599K</span>
+                                <span class="text-gray-500 text-lg">/bulan</span>
+                            </div>
+                        </div>
+                        
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Akses gym 24/7 penuh</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Semua fasilitas & peralatan</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Grup fitness class unlimited</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">5 sesi personal training/bulan</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Konsultasi nutrisi bulanan</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Guest pass (2 orang/bulan)</span>
+                            </li>
+                        </ul>
+                        
+                        <button class="w-full h-12 font-bold bg-[#FF6B6B] text-white hover:bg-[#ff5555] transition-colors rounded-lg">
+                            Pilih Paket Ini
+                        </button>
+                    </div>
+
+                    <!-- Elite Plan -->
+                    <div class="p-8 relative border-2 border-gray-200 hover:border-[#FF6B6B] transition-all duration-300 hover:shadow-xl rounded-lg bg-white">
+                        <div class="mb-8">
+                            <h3 class="text-2xl font-bold text-[#2a2a2a] mb-2">Elite</h3>
+                            <p class="text-gray-600 text-sm mb-4">Paket Lengkap + Premium Support</p>
+                            <div class="flex items-baseline mt-6">
+                                <span class="text-xl text-gray-600">Rp</span>
+                                <span class="text-5xl font-bold text-[#2a2a2a] mx-2">999K</span>
+                                <span class="text-gray-500 text-lg">/bulan</span>
+                            </div>
+                        </div>
+                        
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Semua benefit Pro</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">10 sesi personal training/bulan</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Program nutrisi personal</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Priority class booking</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Guest pass unlimited</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Akses sauna & spa</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-5 h-5 rounded-full bg-[#FF6B6B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </div>
+                                <span class="text-gray-600">Konsultasi online 24/7</span>
+                            </li>
+                        </ul>
+                        
+                        <button class="w-full h-12 font-bold bg-[#2a2a2a] text-white hover:bg-[#FF6B6B] transition-colors rounded-lg">
+                            Pilih Paket Ini
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Personal Trainer Page -->
+    <div id="trainerPage" class="page min-h-screen bg-gray-50 pt-20">
+        <!-- Header Section -->
+        <section class="bg-[#2a2a2a] text-white py-20 px-6 lg:px-12">
+            <div class="max-w-7xl mx-auto text-center">
+                <span class="text-[#FF6B6B] font-bold tracking-wide text-sm uppercase mb-4 block">
+                    Personal Trainer
+                </span>
+                <h1 class="text-4xl lg:text-6xl font-bold mb-6">
+                    Berlatih Bersama Sang Ahli
+                </h1>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Pilih mentor yang tepat untuk mempercepat hasil latihanmu
+                </p>
+            </div>
+        </section>
+
+        <!-- Search & Filter -->
+        <section class="sticky top-20 z-40 bg-white border-b border-gray-200 shadow-sm">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12 py-6">
+                <div class="flex flex-col lg:flex-row gap-4">
+                    <div class="flex-1 relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.3-4.3"/>
+                        </svg>
+                        <input type="text" id="trainerSearch" placeholder="Cari nama trainer atau spesialisasi..." class="pl-12 h-12 w-full bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]" onkeyup="filterTrainers()">
+                    </div>
+                    <select id="specializationFilter" class="w-full lg:w-64 h-12 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]" onchange="filterTrainers()">
+                        <option value="all">Semua Spesialisasi</option>
+                        <option value="Body Recomposition">Body Recomposition</option>
+                        <option value="Yoga & Core Strength">Yoga & Core Strength</option>
+                        <option value="Powerlifting">Powerlifting</option>
+                        <option value="Weight Loss">Weight Loss</option>
+                        <option value="Calisthenics">Calisthenics</option>
+                        <option value="HIIT & Conditioning">HIIT & Conditioning</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trainers Grid -->
+        <section class="py-16 px-6 lg:px-12">
+            <div class="max-w-7xl mx-auto">
+                <div id="trainersGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Trainers will be rendered here by JavaScript -->
+                </div>
+                
+                <!-- Empty State -->
+                <div id="emptyState" class="text-center py-20 hidden">
+                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.3-4.3"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-[#2a2a2a] mb-2">Trainer Tidak Ditemukan</h3>
+                    <p class="text-gray-600 mb-8">
+                        Maaf, trainer dengan kriteria tersebut belum ditemukan. Coba cari dengan kategori lain.
+                    </p>
+                    <button onclick="resetTrainerFilter()" class="bg-[#FF6B6B] text-white hover:bg-[#ff5555] px-8 py-3 rounded-lg font-medium transition-colors">
+                        Reset Pencarian
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Blog Page -->
+    <div id="blogPage" class="page min-h-screen bg-gray-50 pt-20">
+        <!-- Header Section -->
+        <section class="bg-[#2a2a2a] text-white py-20 px-6 lg:px-12">
+            <div class="max-w-7xl mx-auto text-center">
+                <span class="text-[#FF6B6B] font-bold tracking-wide text-sm uppercase mb-4 block">
+                    Blog & Artikel
+                </span>
+                <h1 class="text-4xl lg:text-6xl font-bold mb-6">
+                    Pengetahuan untuk Perjalananmu
+                </h1>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
+                    Tips, panduan, dan inspirasi dari para ahli untuk mendukung gaya hidup sehatmu
+                </p>
+                
+                <!-- Search Bar -->
+                <div class="max-w-2xl mx-auto">
+                    <div class="relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.3-4.3"/>
+                        </svg>
+                        <input type="text" placeholder="Cari artikel..." class="pl-12 h-14 w-full bg-white text-[#2a2a2a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6B6B]">
+                    </div>
+                </div>
+            </div>
+        </section>
+        </section>
+
+        <!-- Featured Article -->
+        <section class="py-16 px-6 lg:px-12">
+            <div class="max-w-7xl mx-auto">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-[#2a2a2a] mb-2">Artikel Utama</h2>
+                </div>
+                
+                <div class="overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-shadow rounded-lg bg-white">
+                    <div class="grid lg:grid-cols-2 gap-0">
+                        <div class="relative h-80 lg:h-auto">
+                            <img src="https://images.unsplash.com/photo-1653927956711-f2222a45e040?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWlnaHRsaWZ0aW5nJTIwZ3ltJTIwZXF1aXBtZW50fGVufDF8fHx8MTc2NzI2NDk3Nnww&ixlib=rb-4.1.0&q=80&w=1080" alt="Featured article" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-8 lg:p-12 flex flex-col justify-center">
+                            <div class="flex items-center gap-4 mb-4">
+                                <span class="px-4 py-1 bg-[#FF6B6B] text-white text-sm font-bold rounded-full">
+                                    Tips Latihan
+                                </span>
+                                <div class="flex items-center gap-4 text-sm text-gray-500">
+                                    <div class="flex items-center gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+                                        </svg>
+                                        2 Januari 2026
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                                        </svg>
+                                        8 menit
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-3xl font-bold text-[#2a2a2a] mb-4">
+                                5 Mitos Tentang Angkat Beban yang Harus Kamu Tahu Sebelum Mulai
+                            </h3>
+                            <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                                Banyak pemula yang takut angkat beban karena mitos yang salah. Mari kita bahas fakta sebenarnya agar kamu bisa latihan dengan percaya diri.
+                            </p>
+                            <p class="text-sm text-gray-500 mb-6">
+                                Oleh Dr. Sarah Fitness
+                            </p>
+                            <button class="bg-[#FF6B6B] text-white hover:bg-[#ff5555] w-fit px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2" onclick="navigateTo('article')">
+                                Baca Selengkapnya
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Us Page -->
+    <div id="aboutPage" class="page min-h-screen bg-gray-50 pt-20">
+        <!-- Hero Section -->
+        <section class="relative h-[60vh] flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1761971975769-97e598bf526b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBneW0lMjBmYWNpbGl0eXxlbnwxfHx8fDE3NjcyOTEzNTB8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Modern gym facility" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-[#2a2a2a]/90 to-[#2a2a2a]/70"></div>
+            </div>
+            
+            <div class="relative z-10 text-white px-6 lg:px-12 max-w-7xl mx-auto text-center">
+                <span class="text-[#FF6B6B] font-bold tracking-wide text-sm uppercase mb-4 block">
+                    Tentang Kami
+                </span>
+                <h1 class="text-5xl lg:text-7xl font-bold mb-6">
+                    Lebih Sekadar Tempat Gym,
+                    <span class="block text-[#FF6B6B]">Kami Adalah Keluarga</span>
+                </h1>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section class="py-24 px-6 lg:px-12 bg-white">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <span class="text-[#FF6B6B] font-bold tracking-wide text-sm uppercase mb-4 block">
+                            Cerita Kami
+                        </span>
+                        <h2 class="text-4xl lg:text-5xl font-bold text-[#2a2a2a] mb-6">
+                            Dimulai dari Mimpi Sederhana
+                        </h2>
+                        <div class="space-y-6 text-gray-600 text-lg leading-relaxed">
+                            <p>
+                                Didirikan sejak <span class="font-bold text-[#2a2a2a]">2018</span>, 
+                                Elevate Gym lahir dari keyakinan sederhana: kesehatan adalah investasi terbaik 
+                                yang bisa kamu berikan untuk dirimu sendiri.
+                            </p>
+                            <p>
+                                Kami memulai perjalanan dengan satu gym kecil dan visi besar—menciptakan 
+                                ruang di mana setiap orang, tanpa memandang level fitness, merasa diterima 
+                                dan didukung untuk mencapai versi terbaik mereka.
+                            </p>
+                            <p>
+                                Hari ini, dengan lebih dari <span class="font-bold text-[#2a2a2a]">5000 member aktif</span> dan 
+                                <span class="font-bold text-[#2a2a2a]"> 50 trainer bersertifikat</span>, kami bangga menjadi 
+                                bagian dari ribuan transformasi yang menginspirasi.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-4">
+                                <div class="h-48 rounded-2xl overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1765728617805-b9f22d64e5b3?w=400" alt="Gym training" class="w-full h-full object-cover">
+                                </div>
+                                <div class="h-64 rounded-2xl overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1651077837628-52b3247550ae?w=400" alt="Yoga class" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <div class="space-y-4 pt-12">
+                                <div class="h-64 rounded-2xl overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1522898467493-49726bf28798?w=400" alt="Professional athlete" class="w-full h-full object-cover">
+                                </div>
+                                <div class="h-48 rounded-2xl overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1653927956711-f2222a45e040?w=400" alt="Weightlifting" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="py-20 px-6 lg:px-12 bg-[#2a2a2a] text-white">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="text-5xl lg:text-6xl font-bold text-[#FF6B6B] mb-2">5000+</div>
+                        <div class="text-gray-300 text-lg">Member Aktif</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl lg:text-6xl font-bold text-[#FF6B6B] mb-2">50+</div>
+                        <div class="text-gray-300 text-lg">Trainer Bersertifikat</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl lg:text-6xl font-bold text-[#FF6B6B] mb-2">100+</div>
+                        <div class="text-gray-300 text-lg">Kelas per Minggu</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl lg:text-6xl font-bold text-[#FF6B6B] mb-2">8</div>
+                        <div class="text-gray-300 text-lg">Tahun Pengalaman</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vision Section -->
+        <section class="py-24 px-6 lg:px-12 bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] text-white">
+            <div class="max-w-4xl mx-auto text-center">
+                <span class="text-[#FF6B6B] font-bold tracking-wide text-sm uppercase mb-4 block">
+                    Visi Kami
+                </span>
+                <h2 class="text-4xl lg:text-5xl font-bold mb-8">
+                    Menjadikan Pola Hidup Sehat Sebagai Standar Baru di Masyarakat
+                </h2>
+                <p class="text-xl text-gray-300 leading-relaxed mb-12">
+                    Kami bermimpi menciptakan generasi yang lebih sehat, lebih kuat, dan lebih percaya diri. 
+                    Bukan hanya melalui latihan fisik, tapi juga dengan membangun mindset yang positif 
+                    terhadap kesehatan dan well-being.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <div class="px-8 py-4 bg-white/10 backdrop-blur-sm rounded-full">
+                        <p class="font-semibold">Transformasi Berkelanjutan</p>
+                    </div>
+                    <div class="px-8 py-4 bg-white/10 backdrop-blur-sm rounded-full">
+                        <p class="font-semibold">Komunitas Inklusif</p>
+                    </div>
+                    <div class="px-8 py-4 bg-white/10 backdrop-blur-sm rounded-full">
+                        <p class="font-semibold">Edukasi Fitness</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Article Page -->
+    <div id="articlePage" class="page min-h-screen bg-gray-50 pt-20">
+        <!-- Article Header -->
+        <article class="bg-white">
+            <div class="max-w-4xl mx-auto px-6 lg:px-12 py-12">
+                <button onclick="navigateTo('blog')" class="flex items-center gap-2 text-gray-600 hover:text-[#FF6B6B] mb-8 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m15 18-6-6 6-6"/>
+                    </svg>
+                    Kembali ke Blog
+                </button>
+                
+                <div class="mb-8">
+                    <span class="px-4 py-1 bg-[#FF6B6B] text-white text-sm font-bold rounded-full">
+                        Tips Latihan
+                    </span>
+                </div>
+                
+                <h1 class="text-4xl lg:text-5xl font-bold text-[#2a2a2a] mb-6 leading-tight">
+                    5 Mitos Tentang Angkat Beban yang Harus Kamu Tahu Sebelum Mulai
+                </h1>
+                
+                <div class="flex items-center gap-6 text-gray-600 mb-8 pb-8 border-b border-gray-200">
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Dr. Sarah Fitness" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <p class="font-semibold text-[#2a2a2a]">Dr. Sarah Fitness</p>
+                            <p class="text-sm text-gray-500">Certified Trainer & Nutritionist</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm">
+                        <div class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+                            </svg>
+                            2 Januari 2026
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            8 menit baca
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Featured Image -->
+            <div class="w-full h-96 lg:h-[500px] mb-12">
+                <img src="https://images.unsplash.com/photo-1653927956711-f2222a45e040?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWlnaHRsaWZ0aW5nJTIwZ3ltJTIwZXF1aXBtZW50fGVufDF8fHx8MTc2NzI2NDk3Nnww&ixlib=rb-4.1.0&q=80&w=1080" alt="Weightlifting equipment" class="w-full h-full object-cover">
+            </div>
+            
+            <!-- Article Content -->
+            <div class="max-w-4xl mx-auto px-6 lg:px-12 pb-20">
+                <div class="prose prose-lg max-w-none">
+                    <p class="text-xl text-gray-600 leading-relaxed mb-8">
+                        Banyak orang, terutama pemula, merasa takut untuk memulai latihan angkat beban karena berbagai mitos yang beredar. 
+                        Mari kita bahas fakta sebenarnya agar kamu bisa memulai perjalanan fitness dengan percaya diri dan informasi yang tepat.
+                    </p>
+                    
+                    <h2 class="text-3xl font-bold text-[#2a2a2a] mt-12 mb-6">1. "Angkat Beban Akan Membuat Wanita Berotot Besar"</h2>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Ini adalah mitos paling umum yang membuat banyak wanita menghindari zona free weights di gym. Faktanya, wanita memiliki 
+                        kadar testosteron yang jauh lebih rendah dibanding pria, hormon yang bertanggung jawab untuk pertumbuhan otot besar-besaran.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Yang akan terjadi adalah: kamu akan mendapatkan tubuh yang lebih kencang, toned, dan metabolisme yang lebih tinggi. 
+                        Bodybuilder wanita yang kamu lihat di media telah berlatih bertahun-tahun dengan intensitas ekstrem dan diet yang sangat ketat.
+                    </p>
+                    
+                    <div class="bg-[#FF6B6B]/5 border-l-4 border-[#FF6B6B] p-6 my-8 rounded-r-lg">
+                        <p class="text-gray-700 font-semibold mb-2">💡 Tips Pro:</p>
+                        <p class="text-gray-600">
+                            Mulai dengan beban ringan dan fokus pada teknik yang benar. Progres secara bertahap untuk hasil optimal tanpa risiko cedera.
+                        </p>
+                    </div>
+                    
+                    <h2 class="text-3xl font-bold text-[#2a2a2a] mt-12 mb-6">2. "Cardio Lebih Baik untuk Menurunkan Berat Badan"</h2>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Meskipun cardio membakar kalori saat kamu melakukannya, angkat beban membangun massa otot yang akan meningkatkan metabolisme basal kamu. 
+                        Artinya, kamu akan membakar lebih banyak kalori bahkan saat sedang istirahat!
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Kombinasi cardio dan strength training adalah pendekatan terbaik. Strength training juga membantu mencegah kehilangan massa otot 
+                        yang sering terjadi saat diet, sehingga penurunan berat badan yang kamu capai lebih banyak dari lemak, bukan otot.
+                    </p>
+                    
+                    <h2 class="text-3xl font-bold text-[#2a2a2a] mt-12 mb-6">3. "Harus Latihan Setiap Hari untuk Hasil Maksimal"</h2>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Ini adalah kesalahan besar! Otot sebenarnya tumbuh saat kamu beristirahat, bukan saat latihan. Overtraining justru bisa 
+                        menyebabkan cedera, kelelahan, dan hasil yang stagnan.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Untuk pemula, 3-4 kali seminggu adalah ideal. Pastikan ada hari istirahat di antara sesi latihan untuk grup otot yang sama. 
+                        Recovery adalah bagian penting dari proses pembentukan otot.
+                    </p>
+                    
+                    <h2 class="text-3xl font-bold text-[#2a2a2a] mt-12 mb-6">4. "Suplemen adalah Kunci Utama Kesuksesan"</h2>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Industri suplemen memang sangat menarik, tapi faktanya: tidak ada suplemen ajaib yang bisa menggantikan nutrisi yang baik 
+                        dan latihan yang konsisten. Suplemen adalah pendukung, bukan pengganti.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Fokus utama harus pada pola makan seimbang dengan protein cukup, karbohidrat kompleks, dan lemak sehat. Protein powder bisa 
+                        membantu memenuhi kebutuhan protein harian, tapi makanan utuh tetap prioritas utama.
+                    </p>
+                    
+                    <h2 class="text-3xl font-bold text-[#2a2a2a] mt-12 mb-6">5. "Kalau Tidak Sakit, Berarti Tidak Efektif"</h2>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        DOMS (Delayed Onset Muscle Soreness) atau rasa sakit otot memang normal setelah latihan berat, terutama untuk pemula atau 
+                        saat mencoba gerakan baru. Tapi ini bukan satu-satunya indikator latihan yang efektif!
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Fokus pada progressive overload - meningkatkan beban, repetisi, atau set secara bertahap. Tracking progress melalui peningkatan 
+                        kekuatan dan performa adalah indikator yang lebih baik dibanding hanya mengandalkan rasa sakit.
+                    </p>
+                    
+                    <div class="bg-gray-50 p-8 rounded-xl my-12">
+                        <h3 class="text-2xl font-bold text-[#2a2a2a] mb-6">Kesimpulan</h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">
+                            Jangan biarkan mitos-mitos ini menghalangi perjalanan fitness kamu. Angkat beban adalah salah satu cara terbaik untuk 
+                            membangun kekuatan, meningkatkan metabolisme, dan mencapai tubuh yang kamu inginkan - terlepas dari gender atau usia.
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            Mulai dengan teknik yang benar, dengarkan tubuhmu, dan konsisten. Jika perlu, bekerja sama dengan personal trainer 
+                            untuk memastikan form yang tepat dan program yang sesuai dengan goalmu.
+                        </p>
+                    </div>
+                    
+                    <!-- Share Section -->
+                    <div class="border-t border-b border-gray-200 py-8 my-12">
+                        <p class="text-sm font-semibold text-gray-500 mb-4">BAGIKAN ARTIKEL INI:</p>
+                        <div class="flex gap-3">
+                            <button class="px-6 py-2 bg-[#1877f2] text-white rounded-lg hover:bg-[#166fe5] transition-colors flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                                </svg>
+                                Facebook
+                            </button>
+                            <button class="px-6 py-2 bg-[#1da1f2] text-white rounded-lg hover:bg-[#1a94da] transition-colors flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+                                </svg>
+                                Twitter
+                            </button>
+                            <button class="px-6 py-2 bg-[#0a66c2] text-white rounded-lg hover:bg-[#004182] transition-colors flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>
+                                </svg>
+                                LinkedIn
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Author Bio -->
+                    <div class="bg-gray-50 p-8 rounded-xl my-12">
+                        <div class="flex items-start gap-6">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200" alt="Dr. Sarah Fitness" class="w-24 h-24 rounded-full object-cover flex-shrink-0">
+                            <div>
+                                <h3 class="text-2xl font-bold text-[#2a2a2a] mb-2">Dr. Sarah Fitness</h3>
+                                <p class="text-[#FF6B6B] font-semibold mb-4">Certified Trainer & Nutritionist</p>
+                                <p class="text-gray-600 leading-relaxed mb-4">
+                                    Dr. Sarah adalah certified personal trainer dengan lebih dari 10 tahun pengalaman membantu klien mencapai 
+                                    goal fitness mereka. Spesialisasinya adalah strength training dan nutrition coaching untuk transformasi tubuh berkelanjutan.
+                                </p>
+                                <div class="flex gap-3">
+                                    <a href="#" class="w-10 h-10 rounded-lg bg-gray-200 hover:bg-[#FF6B6B] hover:text-white flex items-center justify-center transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 rounded-lg bg-gray-200 hover:bg-[#FF6B6B] hover:text-white flex items-center justify-center transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        
+        <!-- Related Articles -->
+        <section class="py-20 px-6 lg:px-12 bg-gray-50">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-3xl font-bold text-[#2a2a2a] mb-12">Artikel Terkait</h2>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Related Article 1 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="window.scrollTo(0,0)">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400" alt="Nutrition tips" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-6">
+                            <span class="px-3 py-1 bg-[#FF6B6B]/10 text-[#FF6B6B] text-xs font-bold rounded-full">
+                                Nutrisi
+                            </span>
+                            <h3 class="text-xl font-bold text-[#2a2a2a] mt-4 mb-3">
+                                Panduan Lengkap Protein untuk Pemula
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                                Berapa banyak protein yang kamu butuhkan? Mari kita bahas kebutuhan protein harian berdasarkan goalmu.
+                            </p>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>28 Des 2025</span>
+                                <span>6 menit</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Related Article 2 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="window.scrollTo(0,0)">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400" alt="Workout tips" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-6">
+                            <span class="px-3 py-1 bg-[#FF6B6B]/10 text-[#FF6B6B] text-xs font-bold rounded-full">
+                                Tips Latihan
+                            </span>
+                            <h3 class="text-xl font-bold text-[#2a2a2a] mt-4 mb-3">
+                                7 Kesalahan Umum di Gym yang Harus Dihindari
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                                Hindari kesalahan ini agar latihanmu lebih efektif dan terhindar dari cedera yang tidak perlu.
+                            </p>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>25 Des 2025</span>
+                                <span>7 menit</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Related Article 3 -->
+                    <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="window.scrollTo(0,0)">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400" alt="Rest and recovery" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <div class="p-6">
+                            <span class="px-3 py-1 bg-[#FF6B6B]/10 text-[#FF6B6B] text-xs font-bold rounded-full">
+                                Gaya Hidup
+                            </span>
+                            <h3 class="text-xl font-bold text-[#2a2a2a] mt-4 mb-3">
+                                Pentingnya Recovery dalam Program Fitness
+                            </h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                                Istirahat bukan berarti malas - ini adalah bagian penting dari progressmu untuk hasil maksimal.
+                            </p>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <span>22 Des 2025</span>
+                                <span>5 menit</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#2a2a2a] text-white py-16 px-6 lg:px-12">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-[#FF6B6B] rounded-lg flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold tracking-tight">ELEVATE</span>
+                    </div>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        Transform your body and mind with world-class facilities and expert guidance.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/10 hover:bg-[#FF6B6B] flex items-center justify-center transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/10 hover:bg-[#FF6B6B] flex items-center justify-center transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/10 hover:bg-[#FF6B6B] flex items-center justify-center transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-white/10 hover:bg-[#FF6B6B] flex items-center justify-center transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-6 text-lg">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" onclick="navigateTo('home'); return false;" class="hover:text-[#FF6B6B] transition-colors">Home</a></li>
+                        <li><a href="#" onclick="navigateTo('trainer'); return false;" class="hover:text-[#FF6B6B] transition-colors">Personal Trainer</a></li>
+                        <li><a href="#" onclick="navigateTo('blog'); return false;" class="hover:text-[#FF6B6B] transition-colors">Blog</a></li>
+                        <li><a href="#" onclick="navigateTo('about'); return false;" class="hover:text-[#FF6B6B] transition-colors">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-6 text-lg">Programs</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-[#FF6B6B] transition-colors">Strength Training</a></li>
+                        <li><a href="#" class="hover:text-[#FF6B6B] transition-colors">Yoga & Flexibility</a></li>
+                        <li><a href="#" class="hover:text-[#FF6B6B] transition-colors">Personal Training</a></li>
+                        <li><a href="#" class="hover:text-[#FF6B6B] transition-colors">Nutrition Coaching</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-6 text-lg">Support</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-[#FF6B6B] transition-colors">FAQs</a></li>
+                        <li><a href="#" class="hover:text-[#FF6B6B] transition-colors">Membership Terms</a></li>
+                        <li><a href="#" class="hover:text-[#FF6B6B] transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-[#FF6B6B] transition-colors">Contact Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400">
+                <p>© 2026 Elevate Gym. All rights reserved.</p>
+                <p>Designed for peak performance</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation
+        let currentPage = 'home';
+        
+        function navigateTo(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            
+            // Show selected page
+            const pageMap = {
+                'home': 'homePage',
+                'trainer': 'trainerPage',
+                'blog': 'blogPage',
+                'about': 'aboutPage',
+                'article': 'articlePage'
+            };
+            
+            document.getElementById(pageMap[page]).classList.add('active');
+            currentPage = page;
+            
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.dataset.page === page) {
+                    link.classList.remove('text-[#2a2a2a]');
+                    link.classList.add('text-[#FF6B6B]');
+                } else {
+                    link.classList.add('text-[#2a2a2a]');
+                    link.classList.remove('text-[#FF6B6B]');
+                }
+            });
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Initialize page-specific content
+            if (page === 'trainer') {
+                renderTrainers();
+            }
+        }
+        
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const menuIcon = document.getElementById('menuIcon');
+            const closeIcon = document.getElementById('closeIcon');
+            
+            menu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        }
+        
+        // Trainer Page
+        const trainersData = [
+            {
+                name: 'Alberto Fernandez',
+                image: 'https://images.unsplash.com/photo-1540206063137-4a88ca974d1a?w=400',
+                specialization: 'Body Recomposition',
+                experience: '8 Tahun',
+                rating: 4.9,
+                reviews: 127,
+                description: 'Spesialis Body Recomposition dengan pengalaman 8 tahun membantu klien mencapai transformasi tubuh ideal',
+                price: '200K',
+            },
+            {
+                name: 'Bella Martinez',
+                image: 'https://images.unsplash.com/photo-1529516548873-9ce57c8f155e?w=400',
+                specialization: 'Yoga & Core Strength',
+                experience: '6 Tahun',
+                rating: 5.0,
+                reviews: 89,
+                description: 'Ahli dalam Fleksibilitas dan Kekuatan Core dengan pendekatan holistik untuk kesehatan total',
+                price: '180K',
+            },
+            {
+                name: 'Carlos Rodriguez',
+                image: 'https://images.unsplash.com/photo-1533560904424-a0c61dc306fc?w=400',
+                specialization: 'Powerlifting',
+                experience: '10 Tahun',
+                rating: 4.8,
+                reviews: 156,
+                description: 'Expert powerlifting dengan track record juara nasional, fokus pada strength maksimal',
+                price: '250K',
+            },
+            {
+                name: 'Diana Chen',
+                image: 'https://images.unsplash.com/photo-1529516548873-9ce57c8f155e?w=400',
+                specialization: 'Weight Loss',
+                experience: '5 Tahun',
+                rating: 4.9,
+                reviews: 94,
+                description: 'Spesialis weight loss dengan metode sustainable dan hasil jangka panjang',
+                price: '170K',
+            },
+            {
+                name: 'Erik Johnson',
+                image: 'https://images.unsplash.com/photo-1540206063137-4a88ca974d1a?w=400',
+                specialization: 'Calisthenics',
+                experience: '7 Tahun',
+                rating: 4.8,
+                reviews: 112,
+                description: 'Master calisthenics dengan fokus pada bodyweight training dan skill progression',
+                price: '190K',
+            },
+            {
+                name: 'Fiona Williams',
+                image: 'https://images.unsplash.com/photo-1529516548873-9ce57c8f155e?w=400',
+                specialization: 'HIIT & Conditioning',
+                experience: '4 Tahun',
+                rating: 4.7,
+                reviews: 76,
+                description: 'Expert HIIT training untuk fat loss maksimal dan peningkatan stamina',
+                price: '160K',
+            },
+        ];
+        
+        function renderTrainers() {
+            const grid = document.getElementById('trainersGrid');
+            const searchQuery = document.getElementById('trainerSearch').value.toLowerCase();
+            const specialization = document.getElementById('specializationFilter').value;
+            
+            const filtered = trainersData.filter(trainer => {
+                const matchesSearch = trainer.name.toLowerCase().includes(searchQuery) ||
+                                     trainer.specialization.toLowerCase().includes(searchQuery);
+                const matchesSpec = specialization === 'all' || trainer.specialization === specialization;
+                return matchesSearch && matchesSpec;
+            });
+            
+            if (filtered.length === 0) {
+                grid.classList.add('hidden');
+                document.getElementById('emptyState').classList.remove('hidden');
+                return;
+            }
+            
+            grid.classList.remove('hidden');
+            document.getElementById('emptyState').classList.add('hidden');
+            
+            grid.innerHTML = filtered.map(trainer => `
+                <div class="overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 group rounded-lg bg-white">
+                    <div class="relative h-72 overflow-hidden">
+                        <img src="${trainer.image}" alt="${trainer.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 right-4">
+                            <h3 class="text-white text-2xl font-bold mb-1">${trainer.name}</h3>
+                            <p class="text-[#FF6B6B] font-semibold">${trainer.specialization}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-4 leading-relaxed">${trainer.description}</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#FF6B6B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                                </svg>
+                                <span class="text-sm text-gray-600">${trainer.experience}</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-yellow-400 fill-yellow-400" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                </svg>
+                                <span class="text-sm font-semibold">${trainer.rating}</span>
+                                <span class="text-sm text-gray-500">(${trainer.reviews})</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <span class="text-sm text-gray-500">Mulai dari</span>
+                                <p class="text-2xl font-bold text-[#2a2a2a]">
+                                    Rp ${trainer.price}
+                                    <span class="text-sm font-normal text-gray-500">/sesi</span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2">
+                            <button class="flex-1 bg-[#2a2a2a] text-white hover:bg-[#FF6B6B] py-3 rounded-lg font-medium transition-colors">
+                                Lihat Profil
+                            </button>
+                            <button class="border-2 border-[#FF6B6B] text-[#FF6B6B] hover:bg-[#FF6B6B] hover:text-white px-4 rounded-lg transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function filterTrainers() {
+            renderTrainers();
+        }
+        
+        function resetTrainerFilter() {
+            document.getElementById('trainerSearch').value = '';
+            document.getElementById('specializationFilter').value = 'all';
+            renderTrainers();
+        }
+        
+        // Initialize
+        renderTrainers();
+    </script>
+</body>
+</html>
